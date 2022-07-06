@@ -20,10 +20,11 @@ public class JdbcAccountDao implements AccountDao {
 
 
     @Override
-    public Account getAccount(Long userId) {
+    public Account getAccount(String userName) {
         Account account = null;
-        String sql = "select account_id, user_id, balance from account where user_id = ? ";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        String sql = "select account_id, tenmo_user.user_id, balance, username from account join tenmo_user on account.user_id = tenmo_user.user_id " +
+                "where tenmo_user.username = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userName);
         if(results.next()) {
             account = mapRowToAccount(results);
         }
