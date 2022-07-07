@@ -2,6 +2,7 @@ package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,9 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class AccountService {
@@ -24,7 +28,6 @@ public class AccountService {
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         Account account = null;
         try{
-
             ResponseEntity <Account> response = restTemplate.exchange(API_BASE_URL + "/accounts", HttpMethod.GET, entity, Account.class);
             account = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
@@ -32,6 +35,18 @@ public class AccountService {
         }
         return account;
     }
+public List<User> getAllAvaiableUsers(AuthenticatedUser currentUser){
+    List<User> users = null;
+    try{
+        users = Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/users", User[].class));
+        users.remove(currentUser.getUser());
+    } catch (RestClientResponseException | ResourceAccessException e) {
+        BasicLogger.log(e.getMessage());
+    }
+        return users;
+    }
+
+
 
 
 }

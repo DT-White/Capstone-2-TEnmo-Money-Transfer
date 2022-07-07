@@ -1,8 +1,11 @@
 package com.techelevator.tenmo.dao;
+import com.techelevator.tenmo.model.User;
 
 import java.math.BigDecimal;
-import java.util.Dictionary;
+import java.util.List;
 
 public interface TransferDao {
-    public void sendBucks(Long accountFrom,Long accountTo, BigDecimal amount);
+    void sendBucks(Long accountFrom,Long accountTo, BigDecimal amount);
+    List<User> getAllUsers();
+
 }

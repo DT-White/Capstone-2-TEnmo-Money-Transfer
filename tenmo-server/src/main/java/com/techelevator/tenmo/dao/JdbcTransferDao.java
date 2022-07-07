@@ -1,7 +1,11 @@
 package com.techelevator.tenmo.dao;
+import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JdbcTransferDao implements TransferDao{
@@ -19,6 +23,21 @@ public class JdbcTransferDao implements TransferDao{
         removeBucks(accountFrom,amount);
     }
 
+    @Override
+    public List<User> getAllUsers() {
+            List<User> list = null;
+            String sql = "select user_id, username from tenmo_user;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()){
+            list = new ArrayList<>();
+            User user = new User();
+            user.setId(results.getLong("user_id"));
+            user.setUsername(results.getString("username"));
+            list.add(user);
+        }
+        return list;
+    }
+
     private void addBucks(Long accoutTo, BigDecimal amount){
             String sql = "update account set balance = balance + ? where account_id = ?";
         jdbcTemplate.update(sql,amount, accoutTo);
@@ -28,5 +47,6 @@ public class JdbcTransferDao implements TransferDao{
         String sql = "update account set balance = balance - ? where account_id = ?";
         jdbcTemplate.update(sql,amount, accountFrom);
     }
+
 
 }

@@ -2,6 +2,7 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -78,6 +79,7 @@ public class App {
             } else if (menuSelection == 3) {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
+                consoleService.printUserList(accountService.getAllAvaiableUsers(currentUser));
                 int accountTo = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
                 BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
                 sendBucks(accountTo, amount);
