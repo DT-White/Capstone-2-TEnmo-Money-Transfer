@@ -25,11 +25,10 @@ public class JdbcTransferDao implements TransferDao{
 
     @Override
     public List<User> getAllUsers() {
-            List<User> list = null;
+            List<User> list = new ArrayList<>();
             String sql = "select user_id, username from tenmo_user;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()){
-            list = new ArrayList<>();
             User user = new User();
             user.setId(results.getLong("user_id"));
             user.setUsername(results.getString("username"));

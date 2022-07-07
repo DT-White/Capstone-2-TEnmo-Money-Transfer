@@ -38,7 +38,8 @@ public class AccountService {
 public List<User> getAllAvaiableUsers(AuthenticatedUser currentUser){
     List<User> users = null;
     try{
-        users = Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/users", User[].class));
+
+        users = new ArrayList<>(Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/users", User[].class)));
         users.remove(currentUser.getUser());
     } catch (RestClientResponseException | ResourceAccessException e) {
         BasicLogger.log(e.getMessage());

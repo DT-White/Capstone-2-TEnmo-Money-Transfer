@@ -22,3 +22,6 @@
 2022-07-07T11:46:35.4630691 500 : [{"timestamp":"2022-07-07T15:46:35.463+00:00","status":500,"error":"Internal Server Error","message":"PreparedStatementCallback; SQL [insert into transfer(transfer_type_id, transfer_status_id, account_... (659 bytes)]
 2022-07-07T11:47:15.9354406 500 : [{"timestamp":"2022-07-07T15:47:15.916+00:00","status":500,"error":"Internal Server Error","message":"No message available","path":"/users"}]
 2022-07-07T11:49:54.143419 500 : [{"timestamp":"2022-07-07T15:49:54.117+00:00","status":500,"error":"Internal Server Error","message":"No message available","path":"/users"}]
+2022-07-07T12:42:03.9738528 500 : [{"timestamp":"2022-07-07T16:42:03.953+00:00","status":500,"error":"Internal Server Error","message":"PreparedStatementCallback; SQL [insert into transfer(transfer_type_id, transfer_status_id, account_... (661 bytes)]
+2022-07-07T12:46:37.9518382 401 : [no body]
+2022-07-07T13:19:00.878363 401 : [no body]

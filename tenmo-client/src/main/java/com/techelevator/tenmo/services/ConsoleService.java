@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
@@ -93,16 +94,22 @@ public class ConsoleService {
     public void printUserList(List<User> userList) {
         System.out.println("-------------------------------------------\n" +
                 "Users\n" +
-                "ID Name\n" +
+                "ID                 Name\n" +
                 "-------------------------------------------");
 
         if(userList != null){
             for(User user: userList){
-                System.out.println(user.getId() + user.getUsername());
+                System.out.println(user.getId() + "               " +user.getUsername());
         }
         }
         System.out.println("---------");
         System.out.println();
+    }
+    public void printFeedback(String message){
+        System.out.println(message);
+    }
+    public void printTranferList(List<Transfer> tranfers){
+
     }
 
 }

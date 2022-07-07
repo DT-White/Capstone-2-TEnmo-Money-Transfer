@@ -100,6 +100,7 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
+        consoleService.printTranferList(transferService.getAllTranfers());
 		// TODO Auto-generated method stub
 		
 	}
@@ -110,7 +111,18 @@ public class App {
 	}
 
 	private void sendBucks(long accountTo, BigDecimal amount) {
-        transferService.sendBucks(currentUser, accountTo, amount);
+        BigDecimal currentBalance = accountService.getAccount(currentUser).getBalance();
+
+        if(currentUser.getUser().getId().equals(accountTo)){
+            consoleService.printFeedback("you cannot send monies to yourself");
+        }
+        else if (amount.compareTo(BigDecimal.valueOf(0)) <= 0) {
+            consoleService.printFeedback("please put in valid amount");
+        }
+        else if (amount.compareTo(currentBalance) == 1) {
+            consoleService.printFeedback("please enter amount not greater than your balance");
+        }
+        else transferService.sendBucks(currentUser, accountTo, amount);
 
 
 		// TODO Auto-generated method stub
