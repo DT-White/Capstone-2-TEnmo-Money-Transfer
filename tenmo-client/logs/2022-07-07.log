@@ -1,0 +1,8 @@
+2022-07-07T09:08:32.0906834 400 : [{"timestamp":"2022-07-07T13:08:32.063+00:00","status":400,"error":"Bad Request","message":"JSON parse error: Cannot deserialize instance of `java.lang.Long` out of START_OBJECT token; nested exception... (417 bytes)]
+2022-07-07T09:11:03.8149849 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2022-07-07T09:16:06.3164763 400 : [{"timestamp":"2022-07-07T13:16:06.296+00:00","status":400,"error":"Bad Request","message":"JSON parse error: Cannot deserialize instance of `java.lang.Long` out of START_OBJECT token; nested exception... (417 bytes)]
+2022-07-07T09:32:56.1813404 400 : [{"timestamp":"2022-07-07T13:32:37.707+00:00","status":400,"error":"Bad Request","message":"JSON parse error: Cannot deserialize instance of `java.lang.Long` out of START_OBJECT token; nested exception... (417 bytes)]
+2022-07-07T09:33:38.234581 400 : [{"timestamp":"2022-07-07T13:33:28.090+00:00","status":400,"error":"Bad Request","message":"JSON parse error: Cannot deserialize instance of `java.lang.Long` out of START_OBJECT token; nested exception... (417 bytes)]
+2022-07-07T09:37:48.8553603 400 : [{"timestamp":"2022-07-07T13:37:48.798+00:00","status":400,"error":"Bad Request","message":"JSON parse error: Cannot deserialize instance of `java.lang.Long` out of START_OBJECT token; nested exception... (417 bytes)]
+2022-07-07T09:48:28.1441392 401 : [no body]
+2022-07-07T09:48:46.9766976 500 : [{"timestamp":"2022-07-07T13:48:46.972+00:00","status":500,"error":"Internal Server Error","message":"PreparedStatementCallback; SQL [insert into transfer(transfer_type_id, transfer_status_id, account_... (681 bytes)]

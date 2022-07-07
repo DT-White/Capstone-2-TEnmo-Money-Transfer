@@ -3,6 +3,7 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +21,8 @@ public class TransferController {
             // handled creation of account DAO , spring framework created and injected
         }
         @RequestMapping(path="/transfers", method = RequestMethod.POST)
-        public void sendBucks (Principal principal, @RequestBody Long accountTo, @RequestBody BigDecimal amount) {
+        public void sendBucks (Principal principal, @RequestBody Transfer transfer) {
             Long accountFrom = accountDao.getAccount(principal.getName()).getAccountId();
-            transferDao.sendBucks(accountFrom, accountTo, amount);
-
-
-            //returns account and gets ID
-
+            transferDao.sendBucks(accountFrom, transfer.getAccountTo(), transfer.getAmount());
         }
 }
