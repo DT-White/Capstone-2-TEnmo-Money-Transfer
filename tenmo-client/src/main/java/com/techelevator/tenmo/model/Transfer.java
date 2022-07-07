@@ -7,8 +7,17 @@ public class Transfer {
     private String transferType;
     private String transferStatus;
     private Long accountFrom;
-    private Long accountTo;
+    private Long userIdTo;
     private BigDecimal amount;
+    private String userNameTo;
+
+    public String getUserNameTo() {
+        return userNameTo;
+    }
+
+    public void setUserNameTo(String userNameTo) {
+        this.userNameTo = userNameTo;
+    }
 
     public Long getTransferId() {
         return transferId;
@@ -26,8 +35,8 @@ public class Transfer {
         return accountFrom;
     }
 
-    public Long getAccountTo() {
-        return accountTo;
+    public Long getUserIdTo() {
+        return userIdTo;
     }
 
     public BigDecimal getAmount() {
@@ -50,8 +59,8 @@ public class Transfer {
         this.accountFrom = accountFrom;
     }
 
-    public void setAccountTo(Long accountTo) {
-        this.accountTo = accountTo;
+    public void setUserIdTo(Long userIdTo) {
+        this.userIdTo = userIdTo;
     }
 
     public void setAmount(BigDecimal amount) {

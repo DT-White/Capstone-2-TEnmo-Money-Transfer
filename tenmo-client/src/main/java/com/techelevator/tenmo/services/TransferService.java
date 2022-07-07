@@ -1,9 +1,7 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
@@ -21,12 +19,12 @@ public class TransferService {
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    public void sendBucks(AuthenticatedUser currentUser, Long accountTo, BigDecimal amount){
+    public void sendBucks(AuthenticatedUser currentUser, Long userIdTo, BigDecimal amount){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
         Transfer newTransfer = new Transfer();
-        newTransfer.setAccountTo(accountTo);
+        newTransfer.setUserIdTo(userIdTo);
         newTransfer.setAmount(amount);
         newTransfer.setTransferType("Send");
         newTransfer.setTransferStatus("Approved");
@@ -37,10 +35,13 @@ public class TransferService {
             BasicLogger.log(e.getMessage());
         }
     }
-    public List<Transfer> getAllTranfers(){
+    public List<Transfer> getAllTranfers(AuthenticatedUser currentUser){
         List<Transfer> transfers = null;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(currentUser.getToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
         try{
-            transfers = new ArrayList<Transfer>(Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/users", Transfer[].class)));
+            transfers = new ArrayList<Transfer>(Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/transfers", Transfer[].class)));
 
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());

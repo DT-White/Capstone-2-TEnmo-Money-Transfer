@@ -1,4 +1,5 @@
 package com.techelevator.tenmo.dao;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -35,6 +36,25 @@ public class JdbcTransferDao implements TransferDao{
             list.add(user);
         }
         return list;
+    }
+
+    @Override
+    public List<Transfer> listAllTransfers(Long accountId) {
+        List<Transfer> transfers = new ArrayList<>();
+        String sql = "select username, transfer_id, amount, account_from, account_to from transfer join account on account.account_id = " +
+                "transfer.account_from or account.account_id = transfer.account_to join tenmo_user on tenmo_user.user_id = " +
+                "account.user_id where account.account_id != ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
+        while(results.next()){
+            Transfer transfer = new Transfer();
+            transfer.setTransferId(results.getLong("transfer_id"));
+            transfer.setAmount(results.getBigDecimal("amount"));
+            transfer.setUsername(results.getString("username"));
+            transfer.setAccountFrom(results.getLong("account_from"));
+            transfer.setAccountTo(results.getLong("account_to"));
+            transfers.add(transfer);
+        }
+        return transfers;
     }
 
     private void addBucks(Long accoutTo, BigDecimal amount){

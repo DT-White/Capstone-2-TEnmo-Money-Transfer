@@ -108,8 +108,27 @@ public class ConsoleService {
     public void printFeedback(String message){
         System.out.println(message);
     }
-    public void printTranferList(List<Transfer> tranfers){
+    public void printTranferList(List<Transfer> tranfers) {
+        System.out.println("-------------------------------------------\n" +
+                "Transfers\n" +
+                "ID            From/To            Amount\n" +
+                "-------------------------------------------");
 
+        if (tranfers != null) {
+            for (Transfer transfer : tranfers) {
+                String fromOrTo;
+                if (transfer.getTransferType().equals("Send")) {
+                    fromOrTo = "To:    ";
+                } else fromOrTo = "From:  ";
+
+                //System.out.print(transfer.getTransferId() + "           " + fromOrTo);
+                //System.out.printf("%15" + transfer.getUserNameTo() + "$"  + "%-7" + transfer.getAmount());
+                System.out.print(transfer.getTransferId() + "          " + fromOrTo);
+                System.out.printf("%-10s $ %6.2f", transfer.getUserNameTo(), transfer.getAmount());
+                System.out.println();
+            }
+
+
+        }
     }
-
 }

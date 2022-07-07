@@ -80,9 +80,9 @@ public class App {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
                 consoleService.printUserList(accountService.getAllAvaiableUsers(currentUser));
-                int accountTo = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
+                int userIdTo = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
                 BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
-                sendBucks(accountTo, amount);
+                sendBucks(userIdTo, amount);
             } else if (menuSelection == 5) {
                 requestBucks();
             } else if (menuSelection == 0) {
@@ -100,9 +100,7 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-        consoleService.printTranferList(transferService.getAllTranfers());
-		// TODO Auto-generated method stub
-		
+        consoleService.printTranferList(transferService.getAllTranfers(currentUser));
 	}
 
 	private void viewPendingRequests() {
@@ -110,10 +108,10 @@ public class App {
 		
 	}
 
-	private void sendBucks(long accountTo, BigDecimal amount) {
+	private void sendBucks(long userIdTo, BigDecimal amount) {
         BigDecimal currentBalance = accountService.getAccount(currentUser).getBalance();
 
-        if(currentUser.getUser().getId().equals(accountTo)){
+        if(currentUser.getUser().getId().equals(userIdTo)){
             consoleService.printFeedback("you cannot send monies to yourself");
         }
         else if (amount.compareTo(BigDecimal.valueOf(0)) <= 0) {
@@ -122,7 +120,7 @@ public class App {
         else if (amount.compareTo(currentBalance) == 1) {
             consoleService.printFeedback("please enter amount not greater than your balance");
         }
-        else transferService.sendBucks(currentUser, accountTo, amount);
+        else transferService.sendBucks(currentUser, userIdTo, amount);
 
 
 		// TODO Auto-generated method stub
