@@ -2,6 +2,7 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -78,9 +79,10 @@ public class App {
             } else if (menuSelection == 3) {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
-                int accountTo = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
+                consoleService.printUserList(accountService.getAllAvaiableUsers(currentUser));
+                int userIdTo = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
                 BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
-                sendBucks(accountTo, amount);
+                sendBucks(userIdTo, amount);
             } else if (menuSelection == 5) {
                 requestBucks();
             } else if (menuSelection == 0) {
@@ -98,8 +100,7 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-		
+        consoleService.printTranferList(transferService.getAllTranfers(currentUser));
 	}
 
 	private void viewPendingRequests() {
@@ -107,8 +108,19 @@ public class App {
 		
 	}
 
-	private void sendBucks(long accountTo, BigDecimal amount) {
-        transferService.sendBucks(currentUser, accountTo, amount);
+	private void sendBucks(long userIdTo, BigDecimal amount) {
+        BigDecimal currentBalance = accountService.getAccount(currentUser).getBalance();
+
+        if(currentUser.getUser().getId().equals(userIdTo)){
+            consoleService.printFeedback("you cannot send monies to yourself");
+        }
+        else if (amount.compareTo(BigDecimal.valueOf(0)) <= 0) {
+            consoleService.printFeedback("please put in valid amount");
+        }
+        else if (amount.compareTo(currentBalance) == 1) {
+            consoleService.printFeedback("please enter amount not greater than your balance");
+        }
+        else transferService.sendBucks(currentUser, userIdTo, amount);
 
 
 		// TODO Auto-generated method stub

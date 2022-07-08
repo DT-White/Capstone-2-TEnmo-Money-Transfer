@@ -1,6 +1,5 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.util.BasicLogger;
@@ -10,6 +9,9 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class TransferService {
@@ -17,12 +19,12 @@ public class TransferService {
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    public void sendBucks(AuthenticatedUser currentUser, Long accountTo, BigDecimal amount){
+    public void sendBucks(AuthenticatedUser currentUser, Long userIdTo, BigDecimal amount){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
         Transfer newTransfer = new Transfer();
-        newTransfer.setAccountTo(accountTo);
+        newTransfer.setUserIdTo(userIdTo);
         newTransfer.setAmount(amount);
         newTransfer.setTransferType("Send");
         newTransfer.setTransferStatus("Approved");
@@ -32,5 +34,19 @@ public class TransferService {
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
+    }
+    public List<Transfer> getAllTranfers(AuthenticatedUser currentUser){
+        List<Transfer> transfers = null;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(currentUser.getToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        try{
+            transfers = new ArrayList<Transfer>(Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/transfers", Transfer[].class)));
+
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfers;
+
     }
 }

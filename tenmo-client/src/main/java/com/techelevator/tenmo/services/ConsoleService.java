@@ -1,9 +1,12 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -88,4 +91,44 @@ public class ConsoleService {
         System.out.println("An error occurred. Check the log for details.");
     }
 
+    public void printUserList(List<User> userList) {
+        System.out.println("-------------------------------------------\n" +
+                "Users\n" +
+                "ID                 Name\n" +
+                "-------------------------------------------");
+
+        if(userList != null){
+            for(User user: userList){
+                System.out.println(user.getId() + "               " +user.getUsername());
+        }
+        }
+        System.out.println("---------");
+        System.out.println();
+    }
+    public void printFeedback(String message){
+        System.out.println(message);
+    }
+    public void printTranferList(List<Transfer> tranfers) {
+        System.out.println("-------------------------------------------\n" +
+                "Transfers\n" +
+                "ID            From/To            Amount\n" +
+                "-------------------------------------------");
+
+        if (tranfers != null) {
+            for (Transfer transfer : tranfers) {
+                String fromOrTo;
+                if (transfer.getTransferType().equals("Send")) {
+                    fromOrTo = "To:    ";
+                } else fromOrTo = "From:  ";
+
+                //System.out.print(transfer.getTransferId() + "           " + fromOrTo);
+                //System.out.printf("%15" + transfer.getUserNameTo() + "$"  + "%-7" + transfer.getAmount());
+                System.out.print(transfer.getTransferId() + "          " + fromOrTo);
+                System.out.printf("%-10s $ %6.2f", transfer.getUserNameTo(), transfer.getAmount());
+                System.out.println();
+            }
+
+
+        }
+    }
 }
