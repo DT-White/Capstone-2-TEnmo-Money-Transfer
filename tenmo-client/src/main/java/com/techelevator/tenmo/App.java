@@ -1,15 +1,14 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -100,7 +99,11 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-        consoleService.printTranferList(transferService.getAllTranfers(currentUser));
+        Account account = accountService.getAccount(currentUser);
+        List<Transfer> newTransfers = transferService.getAllTranfers(currentUser);
+        consoleService.printTransferList(newTransfers, account.getAccountId());
+        int transferId =  consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel):");
+        consoleService.printTransferDetails(newTransfers, transferId, account.getAccountId(), currentUser.getUser().getUsername());
 	}
 
 	private void viewPendingRequests() {
@@ -122,8 +125,6 @@ public class App {
         }
         else transferService.sendBucks(currentUser, userIdTo, amount);
 
-
-		// TODO Auto-generated method stub
 		
 	}
 

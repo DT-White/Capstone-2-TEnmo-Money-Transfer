@@ -27,3 +27,4 @@
 2022-07-07T13:19:00.878363 401 : [no body]
 2022-07-07T16:53:07.6520175 500 : [{"timestamp":"2022-07-07T20:53:07.620+00:00","status":500,"error":"Internal Server Error","message":"No message available","path":"/transfers"}]
 2022-07-07T16:57:32.1004718 500 : [{"timestamp":"2022-07-07T20:57:32.084+00:00","status":500,"error":"Internal Server Error","message":"No message available","path":"/transfers"}]
+2022-07-07T17:04:27.7488319 500 : [{"timestamp":"2022-07-07T21:04:27.717+00:00","status":500,"error":"Internal Server Error","message":"No message available","path":"/transfers"}]

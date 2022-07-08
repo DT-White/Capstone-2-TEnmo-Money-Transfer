@@ -40,8 +40,10 @@ public class TransferService {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
         try{
-            transfers = new ArrayList<Transfer>(Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/transfers", Transfer[].class)));
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + "/transfers", HttpMethod.GET, entity, Transfer[].class);
+            transfers = Arrays.asList(response.getBody());
 
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());

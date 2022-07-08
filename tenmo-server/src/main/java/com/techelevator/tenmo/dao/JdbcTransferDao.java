@@ -41,9 +41,11 @@ public class JdbcTransferDao implements TransferDao{
     @Override
     public List<Transfer> listAllTransfers(Long accountId) {
         List<Transfer> transfers = new ArrayList<>();
-        String sql = "select username, transfer_id, amount, account_from, account_to from transfer join account on account.account_id = " +
-                "transfer.account_from or account.account_id = transfer.account_to join tenmo_user on tenmo_user.user_id = " +
-                "account.user_id where account.account_id != ?";
+        String sql = "select username, amount, account_from, account_to, transfer_id, transfer_status_desc, transfer_type_desc " +
+                "from transfer join account on account.account_id = transfer.account_from or account.account_id = transfer.account_to " +
+                "join tenmo_user on tenmo_user.user_id = account.user_id join transfer_status on transfer.transfer_status_id = " +
+                "transfer_status.transfer_status_id join transfer_type on transfer.transfer_type_id = transfer_type.transfer_type_id " +
+                "where account.account_id != ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
         while(results.next()){
             Transfer transfer = new Transfer();
@@ -52,6 +54,8 @@ public class JdbcTransferDao implements TransferDao{
             transfer.setUsername(results.getString("username"));
             transfer.setAccountFrom(results.getLong("account_from"));
             transfer.setAccountTo(results.getLong("account_to"));
+            transfer.setTransferType(results.getString("transfer_type_desc"));
+            transfer.setTransferStatus(results.getString("transfer_status_desc"));
             transfers.add(transfer);
         }
         return transfers;

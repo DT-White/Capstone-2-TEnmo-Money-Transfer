@@ -97,38 +97,53 @@ public class ConsoleService {
                 "ID                 Name\n" +
                 "-------------------------------------------");
 
-        if(userList != null){
-            for(User user: userList){
-                System.out.println(user.getId() + "               " +user.getUsername());
-        }
+        if (userList != null) {
+            for (User user : userList) {
+                System.out.println(user.getId() + "               " + user.getUsername());
+            }
         }
         System.out.println("---------");
         System.out.println();
     }
-    public void printFeedback(String message){
+
+    public void printFeedback(String message) {
         System.out.println(message);
     }
-    public void printTranferList(List<Transfer> tranfers) {
+
+    public void printTransferList(List<Transfer> transfers, Long accountId) {
         System.out.println("-------------------------------------------\n" +
                 "Transfers\n" +
                 "ID            From/To            Amount\n" +
                 "-------------------------------------------");
-
-        if (tranfers != null) {
-            for (Transfer transfer : tranfers) {
+        if (transfers != null) {
+            for (Transfer transfer : transfers) {
                 String fromOrTo;
-                if (transfer.getTransferType().equals("Send")) {
-                    fromOrTo = "To:    ";
-                } else fromOrTo = "From:  ";
-
-                //System.out.print(transfer.getTransferId() + "           " + fromOrTo);
-                //System.out.printf("%15" + transfer.getUserNameTo() + "$"  + "%-7" + transfer.getAmount());
+                if (!accountId.equals(transfer.getAccountFrom())) {
+                    fromOrTo = "From:  ";
+                } else fromOrTo = "To:    ";
                 System.out.print(transfer.getTransferId() + "          " + fromOrTo);
                 System.out.printf("%-10s $ %6.2f", transfer.getUserNameTo(), transfer.getAmount());
                 System.out.println();
             }
+            System.out.println("---------");
+        }
+    }
+    public void printTransferDetails (List<Transfer> detailListOfTransfers, long transferId, Long accountId, String username){
+        for (Transfer transfer : detailListOfTransfers){
+            if (transferId == transfer.getTransferId()){
+                System.out.println("--------------------------------------------\n" +
+                        "Transfer Details\n" +
+                        "--------------------------------------------\n" +
+                        "Id: " + transferId + "\n" +
+                        "From: " + (accountId.equals(transfer.getAccountFrom())?username:transfer.getUsername()) + "\n" +
+                        "To: " + (accountId.equals(transfer.getAccountTo())?username:transfer.getUsername())  + "\n" +
+                        "Type: " + transfer.getTransferType()     + "\n" +
+                        "Status: " + transfer.getTransferStatus()  + "\n" +
+                        "Amount: $" + transfer.getAmount());
+        }
 
 
         }
+
     }
 }

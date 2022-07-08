@@ -1,0 +1,1 @@
+2022-07-08T10:15:47.8533531 500 : [{"timestamp":"2022-07-08T14:15:47.821+00:00","status":500,"error":"Internal Server Error","message":"Invalid column name; nested exception is java.sql.SQLException: Invalid column name","path":"/transfers"}]
