@@ -79,7 +79,7 @@ public class App {
             } else if (menuSelection == 3) {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
-                consoleService.printUserList(accountService.getAllAvaiableUsers(currentUser));
+                consoleService.printUserList(accountService.getAllAvailableUsers(currentUser));
                 int userIdTo = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
                 BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
                 sendBucks(userIdTo, amount);
@@ -100,7 +100,7 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-        consoleService.printTranferList(transferService.getAllTranfers(currentUser));
+        consoleService.printTranferList(transferService.getAllTransfers(currentUser));
 	}
 
 	private void viewPendingRequests() {

@@ -35,7 +35,7 @@ public class AccountService {
         }
         return account;
     }
-public List<User> getAllAvaiableUsers(AuthenticatedUser currentUser){
+public List<User> getAllAvailableUsers(AuthenticatedUser currentUser){
     List<User> users = null;
     try{
 

@@ -35,14 +35,15 @@ public class TransferService {
             BasicLogger.log(e.getMessage());
         }
     }
-    public List<Transfer> getAllTranfers(AuthenticatedUser currentUser){
+    public List<Transfer> getAllTransfers(AuthenticatedUser currentUser){
         List<Transfer> transfers = null;
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
         headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
         try{
-            transfers = new ArrayList<Transfer>(Arrays.asList(restTemplate.getForObject(API_BASE_URL + "/transfers", Transfer[].class)));
-
+            ResponseEntity<Transfer[]> responseEntity = restTemplate.exchange(API_BASE_URL + "/transfers",HttpMethod.GET,entity, Transfer[].class);
+            transfers = Arrays.asList(responseEntity.getBody());
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
