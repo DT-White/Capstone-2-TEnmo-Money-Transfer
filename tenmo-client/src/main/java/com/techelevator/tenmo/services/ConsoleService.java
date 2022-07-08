@@ -141,9 +141,22 @@ public class ConsoleService {
                         "Status: " + transfer.getTransferStatus()  + "\n" +
                         "Amount: $" + transfer.getAmount());
         }
-
-
         }
-
     }
+    public void viewPendingRequests(List<Transfer> transfers) {
+        System.out.println("-------------------------------------------\n" +
+                "Pending Transfers\n" +
+                "ID              To            Amount\n" +
+                "-------------------------------------------");
+        if (transfers != null) {
+            for (Transfer transfer : transfers) {
+
+                System.out.print(transfer.getTransferId() + "          " );
+                System.out.printf("%-10s $ %6.2f", transfer.getUserNameTo(), transfer.getAmount());
+                System.out.println();
+            }
+            System.out.println("---------");
+        }
+    }
+
 }

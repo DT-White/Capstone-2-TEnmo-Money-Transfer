@@ -71,5 +71,27 @@ public class JdbcTransferDao implements TransferDao{
         jdbcTemplate.update(sql,amount, accountFrom);
     }
 
+    public void requestBucks (Long accountFrom, Long accountTo, BigDecimal amount) {
+        String sql = "insert into transfer(transfer_type_id, transfer_status_id, account_from, account_to, " +
+                "amount) values (1, 1, ?, ?,?)";
+        jdbcTemplate.update(sql, accountFrom, accountTo,amount);
+    }
 
+    @Override
+    public List<Transfer> viewPendingRequest (String username){
+        List<Transfer> transfers = new ArrayList<>();
+            String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_to, amount, username from " +
+                    "transfer join account on transfer.account_to = account.account_id join tenmo_user on account.user_id = " +
+                    "account.user_id where transfer_type_id = 1 and transfer_status_id = 1 and username != ?;";
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
+        while(results.next()){
+            Transfer transfer = new Transfer();
+            transfer.setTransferId(results.getLong("transfer_id"));
+            transfer.setAmount(results.getBigDecimal("amount"));
+            transfer.setUsername(results.getString("username"));
+            transfer.setAccountTo(results.getLong("account_to"));
+            transfers.add(transfer);
+        }
+        return transfers;
+    }
 }
