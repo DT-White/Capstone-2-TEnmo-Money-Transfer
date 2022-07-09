@@ -9,4 +9,6 @@ public interface TransferDao {
     void sendBucks(Long accountFrom,Long accountTo, BigDecimal amount);
     List<User> getAllUsers();
     List<Transfer> listAllTransfers(Long accountId);
+    void requestBucks(Long accountFrom,Long accountTo, BigDecimal amount);
+    List<Transfer> viewPendingRequest (String username);
 }

@@ -28,7 +28,7 @@ public class TransferController {
     @RequestMapping(path = "/transfers", method = RequestMethod.POST)
     public void sendBucks(Principal principal, @RequestBody Transfer transfer) {
         Long accountFrom = accountDao.getAccount(principal.getName()).getAccountId();
-        transferDao.sendBucks(accountFrom, accountDao.getAccountIdByUserId(transfer.getAccountTo()), transfer.getAmount());
+        transferDao.sendBucks(accountFrom, accountDao.getAccountIdByUserId(transfer.getUserIdTo()), transfer.getAmount());
     }
 
     @RequestMapping(path = "/users", method = RequestMethod.GET)
@@ -41,5 +41,18 @@ public class TransferController {
         Long accountId = accountDao.getAccount(principal.getName()).getAccountId();
         return transferDao.listAllTransfers(accountId);
     }
+
+    @RequestMapping(path = "/transfers/requests", method = RequestMethod.POST)
+    public void requestBucks(Principal principal, @RequestBody Transfer transfer) {
+        Long accountTo = accountDao.getAccount(principal.getName()).getAccountId();
+        transferDao.requestBucks(accountDao.getAccountIdByUserId(transfer.getUserIdTo()), accountTo, transfer.getAmount());
+    }
+
+    @RequestMapping(path = "/transfers/requests", method = RequestMethod.GET)
+    public List<Transfer> viewPendingRequests(Principal principal ){
+        String username = principal.getName();
+        return transferDao.viewPendingRequest(username);
+    }
+
 
 }

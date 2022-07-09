@@ -9,7 +9,6 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,12 +41,42 @@ public class TransferService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         try{
-            ResponseEntity<Transfer[]> responseEntity = restTemplate.exchange(API_BASE_URL + "/transfers",HttpMethod.GET,entity, Transfer[].class);
-            transfers = Arrays.asList(responseEntity.getBody());
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + "/transfers", HttpMethod.GET, entity, Transfer[].class);
+            transfers = Arrays.asList(response.getBody());
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
         return transfers;
+    }
+    public void requestBucks(AuthenticatedUser currentUser, Long userIdTo, BigDecimal amount){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(currentUser.getToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Transfer newTransfer = new Transfer();
+        newTransfer.setUserIdTo(userIdTo);
+        newTransfer.setAmount(amount);
+        newTransfer.setTransferType("Request");
+        newTransfer.setTransferStatus("Pending");
+        HttpEntity<Transfer> entity = new HttpEntity<>(newTransfer, headers);
+        try{
+            restTemplate.postForObject(API_BASE_URL + "/transfers/requests", entity, Transfer.class);
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+    }
+    public List<Transfer> viewPendingRequests(AuthenticatedUser currentUser){
+        List<Transfer> transfers = null;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(currentUser.getToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        try{
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + "/transfers/requests", HttpMethod.GET, entity, Transfer[].class);
+            transfers = Arrays.asList(response.getBody());
 
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfers;
     }
 }

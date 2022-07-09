@@ -10,6 +10,16 @@ public class Transfer {
     private Long accountTo;
     private BigDecimal amount;
     private String username;
+    private Long userIdTo;
+
+
+    public Long getUserIdTo() {
+        return userIdTo;
+    }
+
+    public void setUserIdTo(Long userIdTo) {
+        this.userIdTo = userIdTo;
+    }
 
     public String getUsername() {
         return username;

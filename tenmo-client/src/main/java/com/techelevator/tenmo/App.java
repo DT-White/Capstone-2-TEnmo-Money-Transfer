@@ -1,15 +1,13 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class App {
 
@@ -84,7 +82,10 @@ public class App {
                 BigDecimal amount = consoleService.promptForBigDecimal("Enter amount:");
                 sendBucks(userIdTo, amount);
             } else if (menuSelection == 5) {
-                requestBucks();
+                consoleService.printUserList(accountService.getAllAvailableUsers(currentUser));
+                int userIdRequestTo = consoleService.promptForInt("Enter ID of user you are requesting from (0 to cancel):");
+                BigDecimal requestAmount = consoleService.promptForBigDecimal("Enter amount:");
+                requestBucks(userIdRequestTo, requestAmount);
             } else if (menuSelection == 0) {
                 continue;
             } else {
@@ -100,10 +101,21 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
+<<<<<<< HEAD
         consoleService.printTranferList(transferService.getAllTransfers(currentUser));
+=======
+        Account account = accountService.getAccount(currentUser);
+        List<Transfer> newTransfers = transferService.getAllTransfers(currentUser);
+        consoleService.printTransferList(newTransfers, account.getAccountId());
+        int transferId =  consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel):");
+        consoleService.printTransferDetails(newTransfers, transferId, account.getAccountId(), currentUser.getUser().getUsername());
+
+>>>>>>> 51033a5bcdb744ab933313acf2d036840aabce72
 	}
 
 	private void viewPendingRequests() {
+        List<Transfer> newTransfers = transferService.viewPendingRequests(currentUser);
+        consoleService.viewPendingRequests(newTransfers);
 		// TODO Auto-generated method stub
 		
 	}
@@ -122,14 +134,17 @@ public class App {
         }
         else transferService.sendBucks(currentUser, userIdTo, amount);
 
-
-		// TODO Auto-generated method stub
 		
 	}
 
-	private void requestBucks() {
-		// TODO Auto-generated method stub
-		
+	private void requestBucks(long userIdTo, BigDecimal amount) {
+        if(currentUser.getUser().getId().equals(userIdTo)){
+            consoleService.printFeedback("you cannot send monies to yourself");
+        }
+        else if (amount.compareTo(BigDecimal.valueOf(0)) <= 0) {
+            consoleService.printFeedback("please put in valid amount");
+        }
+        else transferService.requestBucks(currentUser, userIdTo, amount);
 	}
 
 }
