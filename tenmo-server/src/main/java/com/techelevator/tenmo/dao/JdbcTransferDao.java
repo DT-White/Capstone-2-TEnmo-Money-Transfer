@@ -4,6 +4,8 @@ import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+
+import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +13,8 @@ import java.util.List;
 @Component
 public class JdbcTransferDao implements TransferDao{
         private JdbcTemplate jdbcTemplate;
-        public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
-            this.jdbcTemplate = jdbcTemplate;
+        public JdbcTransferDao(DataSource dataSource) {
+            this.jdbcTemplate = new JdbcTemplate(dataSource);
         }
 
     @Override
@@ -39,7 +41,7 @@ public class JdbcTransferDao implements TransferDao{
     }
 
     @Override
-    public List<Transfer> listAllTransfers(Long accountId) {
+    public List<Transfer> listAllTransfers(long accountId) {
         List<Transfer> transfers = new ArrayList<>();
         String sql = "select username, amount, account_from, account_to, transfer_id, transfer_status_desc, transfer_type_desc " +
                 "from transfer join account on account.account_id = transfer.account_from or account.account_id = transfer.account_to " +

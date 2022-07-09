@@ -1,19 +1,32 @@
 package com.techelevator.tenmo.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Transfer {
-    private Long transferId;
+    private long transferId;
     private String transferType;
     private String transferStatus;
-    private Long accountFrom;
-    private Long accountTo;
+    private long accountFrom;
+    private long accountTo;
     private BigDecimal amount;
     private String username;
-    private Long userIdTo;
+    private long userIdTo;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transfer transfer = (Transfer) o;
+        return transferId == transfer.transferId && accountFrom == transfer.accountFrom && accountTo == transfer.accountTo && userIdTo == transfer.userIdTo && Objects.equals(transferType, transfer.transferType) && Objects.equals(transferStatus, transfer.transferStatus) && amount.compareTo(transfer.amount) == 0 && Objects.equals(username, transfer.username);
+    }
 
-    public Long getUserIdTo() {
+    @Override
+    public int hashCode() {
+        return Objects.hash(transferId, transferType, transferStatus, accountFrom, accountTo, amount, username, userIdTo);
+    }
+
+    public long getUserIdTo() {
         return userIdTo;
     }
 
@@ -29,7 +42,7 @@ public class Transfer {
         this.username = username;
     }
 
-    public Long getTransferId() {
+    public long getTransferId() {
         return transferId;
     }
 
@@ -41,11 +54,11 @@ public class Transfer {
         return transferStatus;
     }
 
-    public Long getAccountFrom() {
+    public long getAccountFrom() {
         return accountFrom;
     }
 
-    public Long getAccountTo() {
+    public long getAccountTo() {
         return accountTo;
     }
 
@@ -53,7 +66,7 @@ public class Transfer {
         return amount;
     }
 
-    public void setTransferId(Long transferId) {
+    public void setTransferId(long transferId) {
         this.transferId = transferId;
     }
 
@@ -65,11 +78,11 @@ public class Transfer {
         this.transferStatus = transferStatus;
     }
 
-    public void setAccountFrom(Long accountFrom) {
+    public void setAccountFrom(long accountFrom) {
         this.accountFrom = accountFrom;
     }
 
-    public void setAccountTo(Long accountTo) {
+    public void setAccountTo(long accountTo) {
         this.accountTo = accountTo;
     }
 
