@@ -81,4 +81,10 @@ INSERT INTO account(user_id, balance) VALUES (1002, 1000); -- 2002
 INSERT INTO account(user_id, balance) VALUES (1003, 1000); -- 2003
 INSERT INTO account(user_id, balance) VALUES (1004, 1000); -- 2004
 
+INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUEs (1, 1, 2001, 2002, 200);
+INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUEs (1, 2, 2001, 2002, 333);
+INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUEs (1, 3, 2002, 2001, 444);
+INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUEs (2, 2, 2002, 2001, 555);
+
+
 COMMIT;

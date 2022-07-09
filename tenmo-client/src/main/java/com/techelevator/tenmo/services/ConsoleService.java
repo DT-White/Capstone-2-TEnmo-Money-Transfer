@@ -142,21 +142,19 @@ public class ConsoleService {
             System.out.println("---------");
         }
     }
-    public void printTransferDetails (List<Transfer> detailListOfTransfers, long transferId, Long accountId, String username){
-        for (Transfer transfer : detailListOfTransfers){
-            if (transferId == transfer.getTransferId()){
+    public void printTransferDetails (Transfer transfer, Long accountId, String username){
+
                 System.out.println("--------------------------------------------\n" +
                         "Transfer Details\n" +
                         "--------------------------------------------\n" +
-                        "Id: " + transferId + "\n" +
+                        "Id: " + transfer.getTransferId() + "\n" +
                         "From: " + (accountId.equals(transfer.getAccountFrom())?username:transfer.getUsername()) + "\n" +
                         "To: " + (accountId.equals(transfer.getAccountTo())?username:transfer.getUsername())  + "\n" +
                         "Type: " + transfer.getTransferType()     + "\n" +
                         "Status: " + transfer.getTransferStatus()  + "\n" +
                         "Amount: $" + transfer.getAmount());
         }
-        }
-    }
+
     public void viewPendingRequests(List<Transfer> transfers) {
         System.out.println("-------------------------------------------\n" +
                 "Pending Transfers\n" +
@@ -172,5 +170,10 @@ public class ConsoleService {
             System.out.println("---------");
         }
     }
-
+    public void printApproveOrRejectMenu (){
+        System.out.println("1: Approve\n" +
+                "2: Reject\n" +
+                "0: Don't approve or reject\n" +
+                "---------\n" );
+    }
 }

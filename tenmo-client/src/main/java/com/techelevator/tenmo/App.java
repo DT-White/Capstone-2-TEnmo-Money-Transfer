@@ -108,16 +108,38 @@ public class App {
         List<Transfer> newTransfers = transferService.getAllTransfers(currentUser);
         consoleService.printTransferList(newTransfers, account.getAccountId());
         int transferId =  consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel):");
+<<<<<<< HEAD
         consoleService.printTransferDetails(newTransfers, transferId, account.getAccountId(), currentUser.getUser().getUsername());
 
 >>>>>>> 51033a5bcdb744ab933313acf2d036840aabce72
+=======
+        for (Transfer transfer : newTransfers) {
+            if (transferId == transfer.getTransferId()) {
+                consoleService.printTransferDetails(transfer, account.getAccountId(), currentUser.getUser().getUsername());
+            }
+        }
+>>>>>>> 3d75dde3d6914b0cc6a18f1acdce3071cc7b19a0
 	}
 
 	private void viewPendingRequests() {
+        Account account = accountService.getAccount(currentUser);
         List<Transfer> newTransfers = transferService.viewPendingRequests(currentUser);
         consoleService.viewPendingRequests(newTransfers);
-		// TODO Auto-generated method stub
-		
+        int transferId =  consoleService.promptForInt("Please enter transfer ID to approve/reject (0 to cancel):");
+        consoleService.printApproveOrRejectMenu();
+        int menuOption = consoleService.promptForInt("Please choose an option:");
+        for (Transfer transfer : newTransfers) {
+            if (transferId == transfer.getTransferId()) {
+                if(menuOption == 1){
+                    transferService.approvePendingRequest(currentUser, transfer);
+                }
+                else if (menuOption == 2){
+                    transferService.rejectPendingRequest(currentUser, transfer);
+                }
+                else break;
+            }
+        }
+
 	}
 
 	private void sendBucks(long userIdTo, BigDecimal amount) {

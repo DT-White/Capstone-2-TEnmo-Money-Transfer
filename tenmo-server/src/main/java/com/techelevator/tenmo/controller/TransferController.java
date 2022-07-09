@@ -5,10 +5,7 @@ import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -53,6 +50,21 @@ public class TransferController {
         String username = principal.getName();
         return transferDao.viewPendingRequest(username);
     }
+
+    @RequestMapping(path = "/transfers/requests", method = RequestMethod.PUT)
+    public void approvePendingRequest (@RequestBody Transfer transfer, @RequestParam String approved){
+        if(approved.equalsIgnoreCase("True")){
+        transferDao.approvePendingRequest(transfer);
+    }
+        else if (approved.equalsIgnoreCase("False")){
+            transferDao.rejectPendingRequest(transfer);
+        }
+    }
+
+    //@RequestMapping(path = "/transfers/requests", method = RequestMethod.PUT)
+  //  public void rejectPendingRequest (@RequestBody Transfer transfer){
+   //     transferDao.approvePendingRequest(transfer);
+  //  }
 
 
 }
