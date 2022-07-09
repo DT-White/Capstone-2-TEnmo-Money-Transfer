@@ -11,4 +11,6 @@ public interface TransferDao {
     List<Transfer> listAllTransfers(Long accountId);
     void requestBucks(Long accountFrom,Long accountTo, BigDecimal amount);
     List<Transfer> viewPendingRequest (String username);
+    void approvePendingRequest(Transfer transfer);
+    void rejectPendingRequest(Transfer transfer);
 }

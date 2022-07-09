@@ -80,4 +80,32 @@ public class TransferService {
         }
         return transfers;
     }
-}
+    public void approvePendingRequest (AuthenticatedUser currentUser, Transfer transfer) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(currentUser.getToken());
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        transfer.setTransferStatus("Approved");
+        HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
+        try {
+            restTemplate.put(API_BASE_URL + "/transfers/requests?approved=true", entity, Transfer.class);
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+    }
+
+        public void rejectPendingRequest (AuthenticatedUser currentUser, Transfer transfer){
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(currentUser.getToken());
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            transfer.setTransferStatus("Rejected");
+            HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
+            try {
+                restTemplate.put(API_BASE_URL + "/transfers/requests?approved=false", entity, Transfer.class);
+            } catch (RestClientResponseException | ResourceAccessException e) {
+                BasicLogger.log(e.getMessage());
+            }
+        }
+    }
+
+
+

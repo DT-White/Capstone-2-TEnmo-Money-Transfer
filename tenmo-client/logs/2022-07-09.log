@@ -1,0 +1,1 @@
+2022-07-09T14:25:51.7667473 500 : [{"timestamp":"2022-07-09T18:25:51.744+00:00","status":500,"error":"Internal Server Error","message":"PreparedStatementCallback; SQL [insert into transfer(transfer_type_id, transfer_status_id, account_... (616 bytes)]

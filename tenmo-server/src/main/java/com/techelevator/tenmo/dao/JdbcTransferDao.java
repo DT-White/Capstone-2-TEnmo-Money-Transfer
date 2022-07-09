@@ -77,19 +77,31 @@ public class JdbcTransferDao implements TransferDao{
         jdbcTemplate.update(sql, accountFrom, accountTo,amount);
     }
 
+    public void approvePendingRequest(Transfer transfer) {
+        String sql = "update transfer set transfer_status_id = 2 where transfer_id = ?;";
+        jdbcTemplate.update(sql,transfer.getTransferId());
+        addBucks(transfer.getAccountTo(), transfer.getAmount());
+        removeBucks(transfer.getAccountFrom(),transfer.getAmount());
+    }
+
+    public void rejectPendingRequest(Transfer transfer) {
+        String sql = "update transfer set transfer_status_id = 3 where transfer_id = ?;";
+        jdbcTemplate.update(sql,transfer.getTransferId());
+    }
+
     @Override
     public List<Transfer> viewPendingRequest (String username){
         List<Transfer> transfers = new ArrayList<>();
-            String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_to, amount, username from " +
+            String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_from, amount, username from " +
                     "transfer join account on transfer.account_to = account.account_id join tenmo_user on account.user_id = " +
-                    "account.user_id where transfer_type_id = 1 and transfer_status_id = 1 and username != ?;";
+                    "tenmo_user.user_id where transfer_type_id = 1 and transfer_status_id = 1 and username != ?;";
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         while(results.next()){
             Transfer transfer = new Transfer();
             transfer.setTransferId(results.getLong("transfer_id"));
             transfer.setAmount(results.getBigDecimal("amount"));
             transfer.setUsername(results.getString("username"));
-            transfer.setAccountTo(results.getLong("account_to"));
+            transfer.setAccountFrom(results.getLong("account_from"));
             transfers.add(transfer);
         }
         return transfers;
