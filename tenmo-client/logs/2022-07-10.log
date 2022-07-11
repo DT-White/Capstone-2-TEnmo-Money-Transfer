@@ -1,0 +1,5 @@
+2022-07-10T20:15:27.2325687 500 : [{"timestamp":"2022-07-11T00:15:27.212+00:00","status":500,"error":"Internal Server Error","message":"PreparedStatementCallback; uncategorized SQLException for SQL [select username, amount, account_fro... (909 bytes)]
+2022-07-10T20:19:18.9735469 500 : [{"timestamp":"2022-07-11T00:19:18.957+00:00","status":500,"error":"Internal Server Error","message":"PreparedStatementCallback; uncategorized SQLException for SQL [select username, amount, account_fro... (909 bytes)]
+2022-07-10T20:22:48.2467332 500 : [{"timestamp":"2022-07-11T00:22:48.228+00:00","status":500,"error":"Internal Server Error","message":"PreparedStatementCallback; uncategorized SQLException for SQL [select username, amount, account_fro... (909 bytes)]
+2022-07-10T20:24:33.6151717 401 : [no body]
+2022-07-10T20:24:42.4798149 401 : [no body]

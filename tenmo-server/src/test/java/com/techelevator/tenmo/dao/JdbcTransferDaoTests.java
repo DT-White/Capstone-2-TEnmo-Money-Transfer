@@ -23,14 +23,14 @@ public class JdbcTransferDaoTests extends BaseDaoTests {
 
     @Test
     public void list_all_transfer_test() {
-        List<Transfer> transfers = sut.listAllTransfers(2001);
+        List<Transfer> transfers = sut.listAllTransfers(2001, "testUserOne");
         Assert.assertEquals("Transfer list have size 4",4, transfers.size());
     }
 
     @Test
     public void correct_transfer_in_list() {
         Transfer transfer = createTestTransfer();
-        List<Transfer> transfers = sut.listAllTransfers(2001);
+        List<Transfer> transfers = sut.listAllTransfers(2001, "testUserOne");
         Assert.assertTrue("Transfer list should contain a transfer equal to the test transfer",transfers.contains(transfer));
     }
 
@@ -38,7 +38,7 @@ public class JdbcTransferDaoTests extends BaseDaoTests {
     public void send_bucks_test() {
         JdbcAccountDao accountDao = new JdbcAccountDao(dataSource);
         sut.sendBucks(2001,2002,new BigDecimal(100));
-        List<Transfer> transfers = sut.listAllTransfers(2001);
+        List<Transfer> transfers = sut.listAllTransfers(2001, "testUserOne");
         Account accountOne = accountDao.getAccount("testUserOne");
         Account accountTwo = accountDao.getAccount("testUserTwo");
         Assert.assertEquals("testUserOne should have 900 bucks after the transfer",0, accountOne.getBalance().compareTo(new BigDecimal(900)));
@@ -62,7 +62,7 @@ public class JdbcTransferDaoTests extends BaseDaoTests {
         testTransfer.setTransferStatus("Approved");
         Account accountOne = accountDao.getAccount("testUserOne");
         Account accountTwo = accountDao.getAccount("testUserTwo");
-        Assert.assertTrue("Transfer list should contain a transfer equal to the test transfer, with status 'Approved', after the request is approved",sut.listAllTransfers(2001).contains(testTransfer));
+        Assert.assertTrue("Transfer list should contain a transfer equal to the test transfer, with status 'Approved', after the request is approved",sut.listAllTransfers(2001,"testUserOne").contains(testTransfer));
         Assert.assertTrue("testUserOne should have 800 bucks after the request is approved",accountOne.getBalance().compareTo(new BigDecimal(800)) == 0);
         Assert.assertTrue("testUserTwo should have 1200 bucks after the request is approved",accountTwo.getBalance().compareTo(new BigDecimal(1200)) == 0);
     }
@@ -72,7 +72,7 @@ public class JdbcTransferDaoTests extends BaseDaoTests {
         Transfer testTransfer = createTestTransfer();
         sut.rejectPendingRequest(testTransfer);
         testTransfer.setTransferStatus("Rejected");
-        Assert.assertTrue("Transfer list should contain a transfer equal to the test transfer, with status 'Rejected', after the request is rejected",sut.listAllTransfers(2001).contains(testTransfer));
+        Assert.assertTrue("Transfer list should contain a transfer equal to the test transfer, with status 'Rejected', after the request is rejected",sut.listAllTransfers(2001,"testUserOne").contains(testTransfer));
     }
 
     private Transfer createTestTransfer() {

@@ -144,7 +144,7 @@ public class ConsoleService {
     public void viewPendingRequests(List<Transfer> transfers) {
         System.out.println("-------------------------------------------\n" +
                 "Pending Transfers\n" +
-                "ID              To            Amount\n" +
+                "ID            To           Amount\n" +
                 "-------------------------------------------");
         if (transfers != null) {
             for (Transfer transfer : transfers) {

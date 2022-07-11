@@ -30,8 +30,9 @@ public class TransferController {
 
     @RequestMapping (path = "/transfers", method = RequestMethod.GET)
     public List<Transfer> getAllTransfers(Principal principal){
-        Long accountId = accountDao.getAccount(principal.getName()).getAccountId();
-        return transferDao.listAllTransfers(accountId);
+        String username = principal.getName();
+        Long accountId = accountDao.getAccount(username).getAccountId();
+        return transferDao.listAllTransfers(accountId, username);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

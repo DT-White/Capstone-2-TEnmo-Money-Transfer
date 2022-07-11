@@ -8,7 +8,7 @@ import java.util.List;
 public interface TransferDao {
     void sendBucks(long accountFrom,long accountTo, BigDecimal amount);
     List<User> getAllUsers();
-    List<Transfer> listAllTransfers(long accountId);
+    List<Transfer> listAllTransfers(long accountId, String username);
     void requestBucks(long accountFrom,long accountTo, BigDecimal amount);
     List<Transfer> getAllPendingRequests(String username);
     void approvePendingRequest(Transfer transfer);

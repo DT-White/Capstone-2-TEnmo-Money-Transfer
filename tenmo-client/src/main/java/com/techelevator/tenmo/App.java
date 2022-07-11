@@ -105,9 +105,11 @@ public class App {
         List<Transfer> newTransfers = transferService.getAllTransfers(currentUser);
         consoleService.printTransferList(newTransfers, account.getAccountId());
         int transferId =  consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel):");
-        for (Transfer transfer : newTransfers) {
-            if (transferId == transfer.getTransferId()) {
-                consoleService.printTransferDetails(transfer, account.getAccountId(), currentUser.getUser().getUsername());
+        if (newTransfers != null) {
+            for (Transfer transfer : newTransfers) {
+                if (transferId == transfer.getTransferId()) {
+                    consoleService.printTransferDetails(transfer, account.getAccountId(), currentUser.getUser().getUsername());
+                }
             }
         }
 	}
