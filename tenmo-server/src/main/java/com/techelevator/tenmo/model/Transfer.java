@@ -18,7 +18,7 @@ public class Transfer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transfer transfer = (Transfer) o;
-        return transferId == transfer.transferId && accountFrom == transfer.accountFrom && accountTo == transfer.accountTo && userIdTo == transfer.userIdTo && Objects.equals(transferType, transfer.transferType) && Objects.equals(transferStatus, transfer.transferStatus) && amount.compareTo(transfer.amount) == 0 && Objects.equals(username, transfer.username);
+        return (transferId == transfer.transferId) && accountFrom == transfer.accountFrom && (accountTo == transfer.accountTo || transfer.accountTo == 0) && userIdTo == transfer.userIdTo && (Objects.equals(transferType, transfer.transferType) || Objects.equals(transfer.transferType, null)) && (Objects.equals(transfer.transferStatus, transferStatus) || Objects.equals(transfer.transferStatus, null)) && amount.compareTo(transfer.amount) == 0 && Objects.equals(username, transfer.username);
     }
 
     @Override

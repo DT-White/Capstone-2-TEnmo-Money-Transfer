@@ -101,24 +101,15 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-<<<<<<< HEAD
-        consoleService.printTranferList(transferService.getAllTransfers(currentUser));
-=======
         Account account = accountService.getAccount(currentUser);
         List<Transfer> newTransfers = transferService.getAllTransfers(currentUser);
         consoleService.printTransferList(newTransfers, account.getAccountId());
         int transferId =  consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel):");
-<<<<<<< HEAD
-        consoleService.printTransferDetails(newTransfers, transferId, account.getAccountId(), currentUser.getUser().getUsername());
-
->>>>>>> 51033a5bcdb744ab933313acf2d036840aabce72
-=======
         for (Transfer transfer : newTransfers) {
             if (transferId == transfer.getTransferId()) {
                 consoleService.printTransferDetails(transfer, account.getAccountId(), currentUser.getUser().getUsername());
             }
         }
->>>>>>> 3d75dde3d6914b0cc6a18f1acdce3071cc7b19a0
 	}
 
 	private void viewPendingRequests() {

@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+
 
 @Component
 
@@ -14,8 +16,9 @@ import org.springframework.stereotype.Component;
 
 public class JdbcAccountDao implements AccountDao {
     private JdbcTemplate jdbcTemplate;
-    public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+
+    public JdbcAccountDao(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
 
@@ -33,7 +36,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Long getAccountIdByUserId(Long userId) {
+    public Long getAccountIdByUserId(long userId) {
         String sql = "select account_id from account where user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         Long accountId = null;

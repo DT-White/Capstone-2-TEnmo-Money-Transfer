@@ -115,19 +115,6 @@ public class ConsoleService {
                 "Transfers\n" +
                 "ID            From/To            Amount\n" +
                 "-------------------------------------------");
-<<<<<<< HEAD
-
-        if (tranfers.size() > 0) {
-            for (Transfer transfer : tranfers) {
-                String fromOrTo;
-//                if (transfer.getTransferType().equals("Send")) {
-//                    fromOrTo = "To:    ";
-//                } else fromOrTo = "From:  ";
-
-                //System.out.print(transfer.getTransferId() + "           " + fromOrTo);
-                //System.out.printf("%15" + transfer.getUserNameTo() + "$"  + "%-7" + transfer.getAmount());
-                System.out.print(transfer.getTransferId() + "          " + "To:    ");
-=======
         if (transfers != null) {
             for (Transfer transfer : transfers) {
                 String fromOrTo;
@@ -135,7 +122,6 @@ public class ConsoleService {
                     fromOrTo = "From:  ";
                 } else fromOrTo = "To:    ";
                 System.out.print(transfer.getTransferId() + "          " + fromOrTo);
->>>>>>> 51033a5bcdb744ab933313acf2d036840aabce72
                 System.out.printf("%-10s $ %6.2f", transfer.getUserNameTo(), transfer.getAmount());
                 System.out.println();
             }

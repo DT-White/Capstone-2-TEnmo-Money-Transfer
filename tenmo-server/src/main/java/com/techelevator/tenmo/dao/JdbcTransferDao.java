@@ -1,4 +1,5 @@
 package com.techelevator.tenmo.dao;
+
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,27 +12,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcTransferDao implements TransferDao{
-        private JdbcTemplate jdbcTemplate;
-        public JdbcTransferDao(DataSource dataSource) {
-            this.jdbcTemplate = new JdbcTemplate(dataSource);
-        }
+public class JdbcTransferDao implements TransferDao {
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcTransferDao(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
-    public void sendBucks(Long accountFrom, Long accountTo, BigDecimal amount) {
+    public void sendBucks(long accountFrom, long accountTo, BigDecimal amount) {
         String sql = "insert into transfer(transfer_type_id, transfer_status_id, account_from, account_to, " +
                 "amount) values (2, 2, ?, ?,?)";
-        jdbcTemplate.update(sql, accountFrom, accountTo,amount);
-        addBucks(accountTo,amount);
-        removeBucks(accountFrom,amount);
+        jdbcTemplate.update(sql, accountFrom, accountTo, amount);
+        addBucks(accountTo, amount);
+        removeBucks(accountFrom, amount);
     }
 
     @Override
     public List<User> getAllUsers() {
-            List<User> list = new ArrayList<>();
-            String sql = "select user_id, username from tenmo_user;";
+        List<User> list = new ArrayList<>();
+        String sql = "select user_id, username from tenmo_user;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while(results.next()){
+        while (results.next()) {
             User user = new User();
             user.setId(results.getLong("user_id"));
             user.setUsername(results.getString("username"));
@@ -49,7 +51,7 @@ public class JdbcTransferDao implements TransferDao{
                 "transfer_status.transfer_status_id join transfer_type on transfer.transfer_type_id = transfer_type.transfer_type_id " +
                 "where account.account_id != ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
-        while(results.next()){
+        while (results.next()) {
             Transfer transfer = new Transfer();
             transfer.setTransferId(results.getLong("transfer_id"));
             transfer.setAmount(results.getBigDecimal("amount"));
@@ -63,42 +65,42 @@ public class JdbcTransferDao implements TransferDao{
         return transfers;
     }
 
-    private void addBucks(Long accoutTo, BigDecimal amount){
-            String sql = "update account set balance = balance + ? where account_id = ?";
-        jdbcTemplate.update(sql,amount, accoutTo);
+    private void addBucks(Long accoutTo, BigDecimal amount) {
+        String sql = "update account set balance = balance + ? where account_id = ?";
+        jdbcTemplate.update(sql, amount, accoutTo);
     }
 
-    private void removeBucks(Long accountFrom, BigDecimal amount){
+    private void removeBucks(Long accountFrom, BigDecimal amount) {
         String sql = "update account set balance = balance - ? where account_id = ?";
-        jdbcTemplate.update(sql,amount, accountFrom);
+        jdbcTemplate.update(sql, amount, accountFrom);
     }
 
-    public void requestBucks (Long accountFrom, Long accountTo, BigDecimal amount) {
+    public void requestBucks(long accountFrom, long accountTo, BigDecimal amount) {
         String sql = "insert into transfer(transfer_type_id, transfer_status_id, account_from, account_to, " +
                 "amount) values (1, 1, ?, ?,?)";
-        jdbcTemplate.update(sql, accountFrom, accountTo,amount);
+        jdbcTemplate.update(sql, accountFrom, accountTo, amount);
     }
 
     public void approvePendingRequest(Transfer transfer) {
         String sql = "update transfer set transfer_status_id = 2 where transfer_id = ?;";
-        jdbcTemplate.update(sql,transfer.getTransferId());
+        jdbcTemplate.update(sql, transfer.getTransferId());
         addBucks(transfer.getAccountTo(), transfer.getAmount());
-        removeBucks(transfer.getAccountFrom(),transfer.getAmount());
+        removeBucks(transfer.getAccountFrom(), transfer.getAmount());
     }
 
     public void rejectPendingRequest(Transfer transfer) {
         String sql = "update transfer set transfer_status_id = 3 where transfer_id = ?;";
-        jdbcTemplate.update(sql,transfer.getTransferId());
+        jdbcTemplate.update(sql, transfer.getTransferId());
     }
 
     @Override
-    public List<Transfer> viewPendingRequest (String username){
+    public List<Transfer> getAllPendingRequests(String username) {
         List<Transfer> transfers = new ArrayList<>();
-            String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_from, amount, username from " +
-                    "transfer join account on transfer.account_to = account.account_id join tenmo_user on account.user_id = " +
-                    "tenmo_user.user_id where transfer_type_id = 1 and transfer_status_id = 1 and username != ?;";
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
-        while(results.next()){
+        String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_from, amount, username from " +
+                "transfer join account on transfer.account_to = account.account_id join tenmo_user on account.user_id = " +
+                "tenmo_user.user_id where transfer_type_id = 1 and transfer_status_id = 1 and username != ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
+        while (results.next()) {
             Transfer transfer = new Transfer();
             transfer.setTransferId(results.getLong("transfer_id"));
             transfer.setAmount(results.getBigDecimal("amount"));
